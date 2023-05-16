@@ -2,6 +2,7 @@ package com.example.clieeeent.controller;
 
 
 
+import com.example.clieeeent.HelloApplication;
 import com.example.clieeeent.entity.UsersEntity;
 import com.example.clieeeent.entity.departuresEntity;
 import com.example.clieeeent.entity.flightsEntity;
@@ -12,6 +13,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -19,6 +21,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.clieeeent.HelloApplication.showPersonEditDialog;
 
 public class appController {
 
@@ -169,7 +173,11 @@ public class appController {
 
         tableUsers.setItems(usersData);
     }
-
+    @FXML
+    void addUser(ActionEvent event) {
+        UsersEntity us = new UsersEntity();
+       HelloApplication.showPersonEditDialog(us);
+    }
 
 
     public void getDatarab() throws Exception {

@@ -1,9 +1,13 @@
 package com.example.clieeeent;
 
 import com.example.clieeeent.controller.appController;
+import com.example.clieeeent.controller.editUserController;
+import com.example.clieeeent.entity.UsersEntity;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -17,6 +21,29 @@ public class HelloApplication extends Application {
         stage.setScene(scene);
         appController controller = fxmlLoader.getController();
         stage.show();
+    }
+
+    public static boolean showPersonEditDialog(UsersEntity UserObj) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(HelloApplication.class.getResource("editUser.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Book Editor");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            editUserController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+
+
+            dialogStage.showAndWait();
+            return controller.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public static void main(String[] args) {
