@@ -10,6 +10,7 @@ public class departuresEntity {
   // private usersEntity id_user;
   private int seats;
    private String path;
+   private String price;
 
    public int getSeats() {
       return seats;
@@ -26,4 +27,7 @@ public class departuresEntity {
    public void setPath(String path) {
       this.path = path;
    }
+    public void setPrice(String price) {
+        this.price = price;
+    }
 }
