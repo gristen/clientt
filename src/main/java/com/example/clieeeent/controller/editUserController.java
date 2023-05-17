@@ -94,7 +94,7 @@ public class editUserController {
     }
 
     @FXML
-    private void handleOk() throws IOException {
+    private void handleOk() throws Exception {
 
         user.setF_name(f_nameField.getText());
         user.setL_name(l_nameField.getText());
@@ -113,7 +113,7 @@ public class editUserController {
 
         okClicked = true;
         dialogStage.close();
-
+        appController.getDatarab();
     }
 
     @FXML
@@ -121,10 +121,7 @@ public class editUserController {
         dialogStage.close();
     }
 
-//    private boolean isInputValid() {
-//        // Проверка введенных значений и вывод сообщений об ошибках, если необходимо
-//        // Возвращение true, если все значения валидны
-//    }
+
 }
 
 

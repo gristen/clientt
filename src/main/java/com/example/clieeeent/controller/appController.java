@@ -131,7 +131,7 @@ public class appController {
         tableFlights.setItems(flightsData);
     }
 
-    public void getDatarab() throws Exception {
+    public static   void getDatarab() throws Exception {
         String res = http.get(api, "users/all");
         System.out.println(res);
         List<UsersEntity> users = new ArrayList<>();
