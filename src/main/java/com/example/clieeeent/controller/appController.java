@@ -193,6 +193,12 @@ public class appController {
         HelloApplication.showPersonEditDialog(selectedUser);
     }
 
+    @FXML
+    void addUser(ActionEvent event) {
+        UsersEntity user = new UsersEntity();
+        HelloApplication.showUserAddDialog(user);
+    }
+
 
 //    public void getDatarab() throws Exception {
 //        String res = http.get(api, "users/all");
