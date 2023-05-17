@@ -56,10 +56,10 @@ public class editUserController {
         s_nameField.setText(user.getS_name());
         code_passportField.setText(String.valueOf(user.getCode_passport()));
 
-        List<String> roleNames = roles.stream()
-                .map(role -> role.getName())
+        List<String> roleIds = roles.stream()
+                .map(role -> String.valueOf(role.getId_role()))
                 .collect(Collectors.toList());
-        roleField.setItems(FXCollections.observableList(roleNames));
+        roleField.setItems(FXCollections.observableList(roleIds));
 
         // Установите значение id в поле user
         user.setId(user.getId());
@@ -101,11 +101,11 @@ public class editUserController {
         user.setS_name(s_nameField.getText());
         user.setCode_passport(Integer.parseInt(code_passportField.getText()));
         String selectedRole = roleField.getValue();
-        //user.setRoleId(selectedRole);
+        user.getRole().setId_role(Long.valueOf(selectedRole));
 
         // Преобразуйте объект пользователя в JSON
         String userJson = gson.toJson(user);
-        System.out.println("idddddddd"+user.getId());
+
         // Отправьте запрос на сервер для обновления данных пользователя
         String response = http.post(api + "users/update", userJson);
 
