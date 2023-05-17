@@ -23,20 +23,20 @@ public class HelloApplication extends Application {
         stage.show();
     }
 
-    public static boolean showPersonEditDialog(UsersEntity UserObj) {
+    public static boolean showPersonEditDialog(UsersEntity user) {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(HelloApplication.class.getResource("editUser.fxml"));
             AnchorPane page = (AnchorPane) loader.load();
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Book Editor");
+            dialogStage.setTitle("Edit User");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
 
             editUserController controller = loader.getController();
             controller.setDialogStage(dialogStage);
-
+            controller.setUser(user); // Передача объекта пользователя в контроллер
 
             dialogStage.showAndWait();
             return controller.isOkClicked();
@@ -45,7 +45,6 @@ public class HelloApplication extends Application {
             return false;
         }
     }
-
     public static void main(String[] args) {
         launch();
     }
