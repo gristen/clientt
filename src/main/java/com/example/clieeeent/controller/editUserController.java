@@ -114,6 +114,7 @@ public class editUserController {
         okClicked = true;
         dialogStage.close();
         appController.getDatarab();
+        appController.getDataUsers();
     }
 
     @FXML

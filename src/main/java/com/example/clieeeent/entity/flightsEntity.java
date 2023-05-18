@@ -5,13 +5,15 @@ import lombok.NoArgsConstructor;
 
 @Data
 
-public class flightsEntity {
+public class flightsEntity{
     private Long id_flights;
 
     private String path;
 
 
     private String price;
+
+    private aircraftEntity air;
 
     @Override
     public String toString(){

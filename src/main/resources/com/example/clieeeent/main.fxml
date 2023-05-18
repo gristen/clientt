@@ -13,13 +13,35 @@
    <children>
       <TabPane prefHeight="454.0" prefWidth="795.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
+            <Tab text="Список рейсов">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="405.0" prefWidth="795.0">
+                     <children>
+                        <TableView id="tableFlights" fx:id="tableFli" layoutX="1.0" prefHeight="324.0" prefWidth="795.0">
+                           <columns>
+                              <TableColumn fx:id="idFlights" prefWidth="170.0" text="Номер рейса" />
+                              <TableColumn fx:id="fliPath" minWidth="7.0" prefWidth="163.0" text="Путь" />
+                              <TableColumn fx:id="fliPrice" minWidth="7.0" prefWidth="163.0" text="Цена" />
+                           </columns>
+                        </TableView>
+                        <ButtonBar layoutX="398.0" layoutY="335.0" prefHeight="40.0" prefWidth="200.0">
+                           <buttons>
+                              <Button mnemonicParsing="false" onAction="#addFlights" prefHeight="57.0" prefWidth="94.0" text="Добавить" />
+                              <Button layoutX="116.0" layoutY="10.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="94.0" text="Редактировать" />
+                              <Button layoutX="125.0" layoutY="10.0" mnemonicParsing="false" onAction="#click_removeFlights" prefHeight="57.0" prefWidth="94.0" text="Удалить" />
+                           </buttons>
+                        </ButtonBar>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
           <Tab text="Список вылетов">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="405.0" prefWidth="795.0">
                      <children>
                         <TableView id="tableFlights" fx:id="tableFlights" layoutX="1.0" prefHeight="324.0" prefWidth="795.0">
                           <columns>
-                            <TableColumn fx:id="id" prefWidth="170.0" text="Номер рейса" />
+                            <TableColumn fx:id="idDepart" prefWidth="170.0" text="Номер вылета" />
                             <TableColumn fx:id="flightsPath" minWidth="7.0" prefWidth="163.0" text="Путь" />
                               <TableColumn fx:id="flightsPrice" minWidth="7.0" prefWidth="163.0" text="Цена" />
                               <TableColumn fx:id="Seats" minWidth="7.0" prefWidth="134.0" text="Всего мест" />
@@ -27,7 +49,7 @@
                         </TableView>
                         <ButtonBar layoutX="398.0" layoutY="335.0" prefHeight="40.0" prefWidth="200.0">
                           <buttons>
-                            <Button mnemonicParsing="false" prefHeight="57.0" prefWidth="94.0" text="Добавить" />
+                            <Button mnemonicParsing="false" onAction="#addFlights" prefHeight="57.0" prefWidth="94.0" text="Добавить" />
                               <Button layoutX="116.0" layoutY="10.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="94.0" text="Редактировать" />
                               <Button layoutX="125.0" layoutY="10.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="94.0" text="Удалить" />
                           </buttons>
@@ -54,7 +76,7 @@
                            <buttons>
                               <Button mnemonicParsing="false" onAction="#addUser" prefHeight="57.0" prefWidth="94.0" text="Добавить" />
                               <Button layoutX="116.0" layoutY="10.0" mnemonicParsing="false" onAction="#editUser" prefHeight="57.0" prefWidth="94.0" text="Редактировать" />
-                              <Button layoutX="125.0" layoutY="10.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="94.0" text="Удалить" />
+                              <Button layoutX="125.0" layoutY="10.0" mnemonicParsing="false" onAction="#click_removeUser" prefHeight="57.0" prefWidth="94.0" text="Удалить" />
                            </buttons>
                         </ButtonBar>
                      </children>
@@ -67,7 +89,7 @@
                      <children>
                         <TableView fx:id="tableUsers" layoutX="-1.0" prefHeight="326.0" prefWidth="795.0">
                           <columns>
-                              <TableColumn prefWidth="75.0" text="Номер" />
+                              <TableColumn fx:id="numberUser" prefWidth="75.0" text="Номер" />
                               <TableColumn fx:id="f_name" prefWidth="75.0" text="Имя" />
                               <TableColumn fx:id="l_name" prefWidth="75.0" text="фамилия" />
                               <TableColumn fx:id="s_name" prefWidth="75.0" text="Отчество" />
@@ -78,9 +100,9 @@
                         <Label layoutX="105.0" layoutY="364.0" text="Label" />
                         <ButtonBar layoutX="463.0" layoutY="352.0" prefHeight="40.0" prefWidth="200.0">
                            <buttons>
-                              <Button layoutX="116.0" layoutY="10.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="94.0" text="Редактировать" />
-                              <Button layoutX="125.0" layoutY="10.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="94.0" text="Удалить" />
-                              <Button mnemonicParsing="false" prefHeight="57.0" prefWidth="94.0" text="Добавить" />
+                              <Button layoutX="116.0" layoutY="10.0" mnemonicParsing="false" onAction="#editUser" prefHeight="57.0" prefWidth="94.0" text="Редактировать" />
+                              <Button layoutX="125.0" layoutY="10.0" mnemonicParsing="false" onAction="#click_removeUser" prefHeight="57.0" prefWidth="94.0" text="Удалить" />
+                              <Button mnemonicParsing="false" onAction="#addUser" prefHeight="57.0" prefWidth="94.0" text="Добавить" />
                            </buttons>
                         </ButtonBar>
                      </children>

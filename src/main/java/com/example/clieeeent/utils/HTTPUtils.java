@@ -19,4 +19,10 @@ public class HTTPUtils {
             return response.body().string();
         }
     }
+    public String delete(String url, Long id) throws IOException {
+        Request req = new Request.Builder().url(url+id).delete().build();
+        try (Response response = client.newCall(req).execute()) {
+            return response.body().string();
+        }
+    }
 }

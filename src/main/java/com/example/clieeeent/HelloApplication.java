@@ -1,9 +1,11 @@
 package com.example.clieeeent;
 
+import com.example.clieeeent.controller.addFlightsController;
 import com.example.clieeeent.controller.addUserController;
 import com.example.clieeeent.controller.appController;
 import com.example.clieeeent.controller.editUserController;
 import com.example.clieeeent.entity.UsersEntity;
+import com.example.clieeeent.entity.flightsEntity;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -61,6 +63,30 @@ public class HelloApplication extends Application {
             addUserController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             controller.setRole(userObj);
+
+
+            dialogStage.showAndWait();
+            return controller.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean showFlightsAddDialog(flightsEntity fliObj) {
+        try {
+            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("addFlights.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Студент");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            addFlightsController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+          //  controller.setSeats(fliObj);
 
 
             dialogStage.showAndWait();

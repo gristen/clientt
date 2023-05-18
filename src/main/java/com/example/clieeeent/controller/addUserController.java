@@ -38,11 +38,11 @@ public class addUserController {
 
 
 
-    private Stage editGroupStage;
+    private Stage dialogStage;
     private UsersEntity users;
-    private Stage editStudentStage;
+  //  private Stage editStudentStage;
     private boolean okClicked = false;
-    public void setDialogStage (Stage dialogStage) {this.editStudentStage = dialogStage;}
+    public void setDialogStage (Stage dialogStage) {this.dialogStage = dialogStage;}
     public boolean isOkClicked(){return okClicked;}
 
     public void setRole(UsersEntity user) throws IOException {
@@ -82,7 +82,7 @@ public class addUserController {
     }
 
     @FXML
-    private void handleOk() throws IOException {
+    private void handleOk() throws Exception {
         UsersEntity newUser = new UsersEntity();
         newUser.setF_name(f_nameField.getText());
         newUser.setL_name(l_nameField.getText());
@@ -100,10 +100,16 @@ public class addUserController {
         // Обработайте ответ сервера и выполните необходимые действия
 
         okClicked = true;
-       // dialogStage.close();
-       // appController.getDatarab();
+        dialogStage.close();
+       appController.getDatarab();
+       appController.getDataUsers();
 
 
+    }
+
+    @FXML
+    private void handleCancel() {
+        dialogStage.close();
     }
     public static void addUser(UsersEntity group) throws IOException {
         System.out.println(group.toString());
