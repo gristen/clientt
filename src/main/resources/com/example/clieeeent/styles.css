@@ -1,0 +1,68 @@
+/* styles.css */
+
+/* Общие стили для всех компонентов */
+
+.root {
+    -fx-background-color: #f4f4f4;
+}
+
+.label {
+    -fx-font-size: 14px;
+    -fx-text-fill: black;
+}
+
+.button {
+    -fx-font-size: 14px;
+    -fx-background-color: #CCCCCC;
+    -fx-text-fill: black;
+    -fx-pref-width: 94px;
+}
+
+.button:hover {
+    -fx-background-color: #E0E0E0;
+}
+
+.button:pressed {
+    -fx-background-color: #BDBDBD;
+}
+
+.table-view {
+    -fx-background-color: white;
+}
+
+.table-view .column-header {
+    -fx-background-color: #CCCCCC;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+}
+
+.table-view .table-cell {
+    -fx-alignment: CENTER;
+}
+
+/* Стили для каждой вкладки */
+
+.tab-pane {
+    -fx-tab-min-height: 30px;
+    -fx-tab-max-height: 30px;
+    -fx-tab-min-width: 120px;
+    -fx-tab-max-width: 120px;
+}
+
+.tab-pane .tab {
+    -fx-background-color: #CCCCCC;
+    -fx-text-fill: black;
+    -fx-font-size: 14px;
+}
+
+.tab-pane .tab:selected {
+    -fx-background-color: #E0E0E0;
+}
+
+.tab-pane .tab:hover {
+    -fx-background-color: #E0E0E0;
+}
+
+.tab-pane .tab:pressed {
+    -fx-background-color: #BDBDBD;
+}

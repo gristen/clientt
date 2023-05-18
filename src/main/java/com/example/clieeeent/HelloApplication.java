@@ -1,9 +1,6 @@
 package com.example.clieeeent;
 
-import com.example.clieeeent.controller.addFlightsController;
-import com.example.clieeeent.controller.addUserController;
-import com.example.clieeeent.controller.appController;
-import com.example.clieeeent.controller.editUserController;
+import com.example.clieeeent.controller.*;
 import com.example.clieeeent.entity.UsersEntity;
 import com.example.clieeeent.entity.flightsEntity;
 import javafx.application.Application;
@@ -40,6 +37,28 @@ public class HelloApplication extends Application {
             editUserController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             controller.setUser(user); // Передача объекта пользователя в контроллер
+
+            dialogStage.showAndWait();
+            return controller.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    public static boolean showFlightsEditDialog(flightsEntity fli) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(HelloApplication.class.getResource("editFlights.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Editads flights");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            editFlightsController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setUser(fli);
 
             dialogStage.showAndWait();
             return controller.isOkClicked();

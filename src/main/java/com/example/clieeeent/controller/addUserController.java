@@ -9,6 +9,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -40,7 +41,7 @@ public class addUserController {
 
     private Stage dialogStage;
     private UsersEntity users;
-  //  private Stage editStudentStage;
+
     private boolean okClicked = false;
     public void setDialogStage (Stage dialogStage) {this.dialogStage = dialogStage;}
     public boolean isOkClicked(){return okClicked;}
@@ -83,28 +84,63 @@ public class addUserController {
 
     @FXML
     private void handleOk() throws Exception {
-        UsersEntity newUser = new UsersEntity();
-        newUser.setF_name(f_nameField.getText());
-        newUser.setL_name(l_nameField.getText());
-        newUser.setS_name(s_nameField.getText());
-        newUser.setCode_passport(Integer.parseInt(code_passportField.getText()));
+        String firstName = f_nameField.getText();
+        String lastName = l_nameField.getText();
+        String secondName = s_nameField.getText();
+        String codePassportText = code_passportField.getText();
         String selectedRole = roleField.getValue();
+
+        // Проверка наличия данных в обязательных полях
+        if (firstName.isEmpty() || lastName.isEmpty() || codePassportText.isEmpty()|| selectedRole == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Пустые поля");
+            alert.setHeaderText("Пожалуйста, заполните обязательные поля");
+            alert.showAndWait();
+            return; // Останавливаем выполнение метода, если есть пустые поля
+        }
+
+        // Проверка, является ли код паспорта числом
+        int codePassport;
+        try {
+            codePassport = Integer.parseInt(codePassportText);
+        } catch (NumberFormatException e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Некорректный код паспорта");
+            alert.setHeaderText("Пожалуйста, введите корректный код паспорта (число)");
+            alert.showAndWait();
+            return; // Останавливаем выполнение метода, если код паспорта некорректный
+        }
+        if (codePassport <=0)
+        {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Некорректный код паспорта");
+            alert.setHeaderText("код паспорта не может быть меньше нуля");
+            alert.showAndWait();
+            return; // Останавливаем выполнение метода, если код паспорта некорректный
+        }
+
+        // Создание объекта пользователя и установка значений полей
+        UsersEntity newUser = new UsersEntity();
+        newUser.setF_name(firstName);
+        newUser.setL_name(lastName);
+        newUser.setS_name(secondName);
+        newUser.setCode_passport(codePassport);
+
+
         roleEntity role = new roleEntity();
         role.setId_role(Long.valueOf(selectedRole));
         newUser.setRole(role);
         String userJson = gson.toJson(newUser);
 
-        // Отправьте запрос на сервер для сохранения данных пользователя
+        // Отправка запроса на сервер для сохранения данных пользователя
         String response = http.post(api + "users/add", userJson);
 
-        // Обработайте ответ сервера и выполните необходимые действия
+        // Обработка ответа сервера и выполнение необходимых действий
 
         okClicked = true;
         dialogStage.close();
-       appController.getDatarab();
-       appController.getDataUsers();
-
-
+        appController.getDatarab();
+        appController.getDataUsers();
     }
 
     @FXML

@@ -9,6 +9,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -95,21 +96,50 @@ public class editUserController {
 
     @FXML
     private void handleOk() throws Exception {
-
-        user.setF_name(f_nameField.getText());
-        user.setL_name(l_nameField.getText());
-        user.setS_name(s_nameField.getText());
-        user.setCode_passport(Integer.parseInt(code_passportField.getText()));
+        String firstName = f_nameField.getText();
+        String lastName = l_nameField.getText();
+        String surname = s_nameField.getText();
+        String codePassport = code_passportField.getText();
         String selectedRole = roleField.getValue();
+
+        // Проверка наличия данных в обязательных полях
+        if (firstName.isEmpty() || lastName.isEmpty() || surname.isEmpty() || codePassport.isEmpty() || selectedRole == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Пустые поля");
+            alert.setHeaderText("Пожалуйста, заполните все обязательные поля");
+            alert.showAndWait();
+            return; // Останавливаем выполнение метода, если есть пустые поля
+        }
+
+        // Проверка, что поле code_passport является числом
+        int codePassportNumeric;
+        try {
+            codePassportNumeric = Integer.parseInt(codePassport);
+        } catch (NumberFormatException e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Некорректное значение");
+            alert.setHeaderText("Поле 'Код паспорта' должно быть числом");
+            alert.showAndWait();
+            return; // Останавливаем выполнение метода, если некорректное значение поля code_passport
+        }
+
+        // Дополнительные проверки, если необходимо
+        // ...
+
+        // Установка значений полей пользователя
+        user.setF_name(firstName);
+        user.setL_name(lastName);
+        user.setS_name(surname);
+        user.setCode_passport(codePassportNumeric);
         user.getRole().setId_role(Long.valueOf(selectedRole));
 
-        // Преобразуйте объект пользователя в JSON
+        // Преобразование объекта пользователя в JSON
         String userJson = gson.toJson(user);
 
-        // Отправьте запрос на сервер для обновления данных пользователя
+        // Отправка запроса на сервер для обновления данных пользователя
         String response = http.post(api + "users/update", userJson);
 
-        // Обработайте ответ сервера и выполните необходимые действия
+        // Обработка ответа сервера и выполнение необходимых действий
 
         okClicked = true;
         dialogStage.close();

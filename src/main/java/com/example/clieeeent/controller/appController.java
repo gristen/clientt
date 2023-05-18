@@ -19,6 +19,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
@@ -34,6 +35,8 @@ public class appController {
     public static ObservableList<UsersEntity> usersData = FXCollections.observableArrayList();
     public static ObservableList<UsersEntity> rabData = FXCollections.observableArrayList();
     public static ObservableList<flightsEntity> fliData = FXCollections.observableArrayList();
+
+    public static ObservableList<flightsEntity> seatchDataFlights = FXCollections.observableArrayList();
 
     static HTTPUtils http = new HTTPUtils();
     static Gson gson = new Gson();
@@ -52,7 +55,8 @@ public class appController {
     @FXML
     private TableColumn<departuresEntity, String> flightsPrice;
 
-
+    @FXML
+    private TextField SearchFieldProducts;
     @FXML
     public TableView<flightsEntity> tableFli;
 
@@ -180,12 +184,15 @@ public class appController {
     }
 
     @FXML
-    private void click_removeUser() throws IOException {
+    private void click_removeUser() throws Exception {
         UsersEntity selectedPerson = tableUsers.getSelectionModel().getSelectedItem();
         if (selectedPerson != null) {
             selectedPerson.getId();
             http.delete(api+"users/delete/?id=", (long) selectedPerson.getId());
             usersData.remove(selectedPerson);
+            getDataUsers();
+            getDatarab();
+
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Ничего не выбрано");
@@ -196,12 +203,13 @@ public class appController {
     }
 
     @FXML
-    private void click_removeFlights() throws IOException {
+    private void click_removeFlights() throws Exception {
         flightsEntity selectedFlight = tableFli.getSelectionModel().getSelectedItem();
         if (selectedFlight != null) {
             long flightId = selectedFlight.getId_flights();
             http.delete(api+"flights/delete/?id=", flightId);
             tableFli.getItems().remove(selectedFlight);
+            getDataFlights();
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Ничего не выбрано");
@@ -306,10 +314,22 @@ public class appController {
         usersData.clear();
         usersData.addAll(users);
     }
+    @FXML
+    private void  SearchDataFlights() throws IOException{
+        String tov = http.get("http://localhost:2825/api/flights/name?name=", SearchFieldProducts.getText());
+        System.out.println(tov);
+        JsonObject base = gson.fromJson(tov, JsonObject.class);
+        JsonArray dataArr = base.getAsJsonArray("data");
+        for(int i = 0; i < dataArr.size();i++){
+            flightsEntity newpro = gson.fromJson(dataArr.get(i).toString(),flightsEntity.class);
+            seatchDataFlights.add(newpro);
+        }
+        fliPath.setCellValueFactory(new PropertyValueFactory<flightsEntity, String>("path"));
+        fliPath.setCellValueFactory(new PropertyValueFactory<flightsEntity, String>("price"));
+        idFlights.setCellValueFactory(new PropertyValueFactory<flightsEntity, String>("id_flights"));
 
-
-
-
+        tableFli.setItems(seatchDataFlights);
+    }
 
     private void updateTableUsers() {
         f_name.setCellValueFactory(new PropertyValueFactory<>("f_name"));
@@ -348,6 +368,14 @@ public class appController {
         flightsEntity fli = new flightsEntity();
         HelloApplication.showFlightsAddDialog(fli);
     }
+
+    @FXML
+    void editFlights(ActionEvent event) {
+        flightsEntity sele = tableFli.getSelectionModel().getSelectedItem();
+        HelloApplication.showFlightsEditDialog(sele);
+    }
+
+
 
 
 
