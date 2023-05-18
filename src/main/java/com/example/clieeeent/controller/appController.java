@@ -316,19 +316,32 @@ public class appController {
     }
     @FXML
     private void  SearchDataFlights() throws IOException{
-        String tov = http.get("http://localhost:2825/api/flights/name?name=", SearchFieldProducts.getText());
-        System.out.println(tov);
-        JsonObject base = gson.fromJson(tov, JsonObject.class);
-        JsonArray dataArr = base.getAsJsonArray("data");
-        for(int i = 0; i < dataArr.size();i++){
-            flightsEntity newpro = gson.fromJson(dataArr.get(i).toString(),flightsEntity.class);
-            seatchDataFlights.add(newpro);
-        }
-        fliPath.setCellValueFactory(new PropertyValueFactory<flightsEntity, String>("path"));
-        fliPath.setCellValueFactory(new PropertyValueFactory<flightsEntity, String>("price"));
-        idFlights.setCellValueFactory(new PropertyValueFactory<flightsEntity, String>("id_flights"));
+        String searchQuery = SearchFieldProducts.getText();
+        String response = http.get("http://localhost:2825/api/flights?name=", searchQuery);
+        System.out.println(response);
+        JsonObject json = gson.fromJson(response, JsonObject.class);
+        JsonArray dataArr = json.getAsJsonArray("data");
 
-        tableFli.setItems(seatchDataFlights);
+        if (dataArr.size() == 0) {
+            // Показать алерт с сообщением о пустом результате поиска
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Результат поиска");
+            alert.setHeaderText("Нет данных");
+            alert.setContentText("По вашему запросу ничего не найдено.");
+            alert.showAndWait();
+        } else {
+            // Обработка найденных данных
+            for (int i = 0; i < dataArr.size(); i++) {
+                flightsEntity newpro = gson.fromJson(dataArr.get(i).toString(), flightsEntity.class);
+                seatchDataFlights.add(newpro);
+            }
+
+            fliPath.setCellValueFactory(new PropertyValueFactory<>("path"));
+            fliPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+            idFlights.setCellValueFactory(new PropertyValueFactory<>("id_flights"));
+
+            tableFli.setItems(seatchDataFlights);
+        }
     }
 
     private void updateTableUsers() {
